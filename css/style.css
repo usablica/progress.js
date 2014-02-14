@@ -1,0 +1,71 @@
+html, body, .first-container {
+    height: 100%;
+    width: 100%;
+}
+.headerButtons small {
+    background-color: #2980b9;
+    padding: 2px;
+    border-radius: 4px;          
+    padding-left: 4px;
+    padding-right: 4px;
+}
+.pSection {
+    height: 100%;
+    width: 100%;
+}
+.jumbotron {
+    padding: 80px 0;
+    text-align: center;
+}
+.jumbotron h1 {
+    font-size: 60px;
+    line-height: 1;
+}
+.jumbotron .lead {
+    font-size: 24px;
+    line-height: 1.25;
+}
+.jumbotron.load-pictures h1 {
+    color: #2c3e50;
+}
+.jumbotron.load-pictures .lead {
+    color: #7f8c8d;
+}
+#loadImagesSection {
+  padding-bottom: 85px;
+}
+#inUIElement {
+  padding-bottom: 85px;
+}
+#inTextarea h1 {
+    color: #fafafa;
+}
+#inTextarea .lead {
+    color: #2c3e50;
+}
+#inTextarea { 
+  padding-bottom: 85px;
+}
+#howItWorks h1 {
+    color: #7f8c8d;
+}
+#howItWorks .lead {
+    color: #5D738A;
+}
+#howItWorks { 
+  padding-bottom: 85px;
+}
+#whatsNext h1 {
+    color: #ecf0f1;
+}
+#whatsNext .lead {
+    color: #5D738A;
+}
+#whatsNext { 
+  padding-bottom: 85px;
+}
+#whatsNext .row-fluid p {
+  color: #fff;
+  font-size: 18px;
+  line-height: 1.72222;
+}
