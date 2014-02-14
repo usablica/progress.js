@@ -1,4 +1,4 @@
-# Progressjs
+# ProgressJS
 
 > ProgressJs is a JavaScript and CSS3 library which help developers to create and manage progress bar for every objects on the page. 
 
@@ -9,14 +9,18 @@
 2) Execute following JavaScript code in the page:
 
 ```javascript
-      //to set progress-bar for whole page
-      progressJs().start();
-      //or for specific element
-      progressJs("#targetElement").start();
+//to set progress-bar for whole page
+progressJs().start();
+//or for specific element
+progressJs("#targetElement").start();
 ```
 
 
 Use other methods to increase, decrease or set a auto-increase function for your progress-bar. Furthermore, you can change the template using `setOption` method.
+
+## API
+
+Check the API and method usage with example here: https://github.com/usablica/progress.js/wiki/API
 
 ## Build
 
