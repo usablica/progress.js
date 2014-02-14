@@ -31,6 +31,7 @@ Now you can run this command to minify all static resources:
     make build
 
 ## Roadmap
+- Add `example` folder and provide examples
 - More browser compatibility + mobile/tablet device support
 - Add more templates
 
