@@ -1,12 +1,12 @@
 # ProgressJS
 
-> ProgressJs is a JavaScript and CSS3 library which help developers to create and manage progress bar for every objects on the page. 
+> ProgressJs is a JavaScript and CSS3 library which helps developers create and manage progress bars for every object on the page. 
 
 ## How To Use
 
-1) Include `progress.js` and `progressjs.css` in the page (use minified version from `minified` folder for production)
+1) Include `progress.js` and `progressjs.css` in the page (use the minified version from `minified` folder for production)
 
-2) Execute following JavaScript code in the page:
+2) Execute the following JavaScript code in the page:
 
 ```javascript
 //to set progress-bar for whole page
@@ -16,7 +16,7 @@ progressJs("#targetElement").start();
 ```
 
 
-Use other methods to increase, decrease or set a auto-increase function for your progress-bar. Furthermore, you can change the template using `setOption` method.
+Use other methods to increase, decrease or set an auto-increase function for your progress-bar. Furthermore, you can change the template using `setOption` method.
 
 ## API
 
@@ -24,9 +24,9 @@ Check the API and method usage with example here: https://github.com/usablica/pr
 
 ## Build
 
-First you should install `nodejs` and `npm`, then first run this command: `npm install` to install all dependencies.
+First, you should install `nodejs` and `npm`, then run this command: `npm install` to install all dependencies.
 
-Now you can run this command to minify all static resources:
+Now you can run this command to minify all the static resources:
 
     make build
 
