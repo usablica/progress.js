@@ -137,13 +137,18 @@ document.getElementById("saveButton").onclick = function() {
 }
 
 var textareaCount = document.getElementById("countTextarea");
-textareaCount.onkeyup = function() {
-  //console.log(this.value.length);
-  var prgjs = progressJs("#countTextarea").setOptions({ theme: 'blackRadiusInputs' }).start();
+var characterCounter = document.getElementById("characterCounter");
 
-  if (this.value.length <= 100) {
-    prgjs.set(this.value.length);
-  } else {
-    this.value = this.value.substring(0 ,100);
-  }
-};
+function countCharacters() {
+  var prgjs = progressJs("#countTextarea").setOptions({ theme: 'blackRadiusInputs' }).start();
+  
+  var length = textareaCount.value.length;
+  var maxLength = textareaCount.getAttribute("maxlength");
+  var progress = length / maxLength * 100;
+  
+  prgjs.set(progress);
+  characterCounter.textContent = maxLength - length;
+}
+
+textareaCount.onkeypress = textareaCount.onkeyup = countCharacters;
+countCharacters();
