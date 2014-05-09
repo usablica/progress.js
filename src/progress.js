@@ -241,8 +241,10 @@
    */
   function _autoIncrease(size, millisecond) {
     var self = this;
-    
-    var progressjsId = parseInt(this._targetElement[0].getAttribute('data-progressjs'));
+
+    var target = this._targetElement[0];
+    if(!target) return;
+    var progressjsId = parseInt(target.getAttribute('data-progressjs'));
     
     if (typeof window._progressjsIntervals[progressjsId] != 'undefined') {
       clearInterval(window._progressjsIntervals[progressjsId]);
@@ -288,9 +290,11 @@
       } else {
         this._onBeforeEndCallback.call(this);
       }
-    } 
+    }
 
-    var progressjsId = parseInt(this._targetElement[0].getAttribute('data-progressjs'));
+    var target = this._targetElement[0];
+    if(!target) return;
+    var progressjsId = parseInt(target.getAttribute('data-progressjs'));
     
     for (var i = 0, elmsLength = this._targetElement.length; i < elmsLength; i++) {
       var currentElement = this._targetElement[i];
