@@ -339,6 +339,51 @@
   }
 
   /**
+   * Remove progress bar without finishing
+   *
+   * @api private
+   * @method _kill
+   */
+  function _kill() {
+    var target = this._targetElement[0];
+    if(!target) return;
+    var progressjsId = parseInt(target.getAttribute('data-progressjs'));
+
+    for (var i = 0, elmsLength = this._targetElement.length; i < elmsLength; i++) {
+      var currentElement = this._targetElement[i];
+      var percentElement = _getPercentElement(currentElement);
+
+      if (!percentElement)
+        return;
+
+      var existingPercent = parseInt(percentElement.style.width.replace('%', ''));
+
+      //I believe I should handle this situation with eventListener and `transitionend` event but I'm not sure
+      //about compatibility with IEs. Should be fixed in further versions.
+      (function(percentElement, currentElement) {
+        percentElement.parentNode.className += " progressjs-end";
+
+        setTimeout(function() {
+          //remove the percent element from page
+          percentElement.parentNode.parentNode.removeChild(percentElement.parentNode);
+          //and remove the attribute
+          currentElement.removeAttribute("data-progressjs");
+        }, 1000);
+      })(percentElement, currentElement);
+    }
+
+    //clean the setInterval for autoIncrease function
+    if (window._progressjsIntervals[progressjsId]) {
+      //`delete` keyword has some problems in IE
+      try {
+        clearInterval(window._progressjsIntervals[progressjsId]);
+        window._progressjsIntervals[progressjsId] = null;
+        delete window._progressjsIntervals[progressjsId];
+      } catch(ex) { }
+    }
+  }
+
+  /**
    * Create the progress bar container
    *
    * @api private
@@ -489,6 +534,10 @@
     },
     end: function() {
       _end.call(this);
+      return this;
+    },
+    kill: function() {
+      _kill.call(this);
       return this;
     },
     onbeforeend: function(providedCallback) {
