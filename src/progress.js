@@ -356,8 +356,6 @@
       if (!percentElement)
         return;
 
-      var existingPercent = parseInt(percentElement.style.width.replace('%', ''));
-
       //I believe I should handle this situation with eventListener and `transitionend` event but I'm not sure
       //about compatibility with IEs. Should be fixed in further versions.
       (function(percentElement, currentElement) {
