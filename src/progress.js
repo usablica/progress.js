@@ -122,7 +122,12 @@
       //set progress bar container size and offset
       progressElementContainer.style.left  = targetElementOffset.left + 'px';
       progressElementContainer.style.top   = targetElementOffset.top + 'px';
-      progressElementContainer.style.width = targetElementOffset.width + 'px';
+      //if targetElement is body set to percent so it scales with browser resize
+      if (targetElement.nodeName == 'BODY') {
+        progressElementContainer.style.width = '100%';
+      } else {
+        progressElementContainer.style.width = targetElementOffset.width + 'px';
+      }
 
       if (this._options.overlayMode) {
         progressElementContainer.style.height = targetElementOffset.height + 'px';
