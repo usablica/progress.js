@@ -29,7 +29,7 @@
   function ProgressJs(obj) {
 
     if (typeof obj.length != 'undefined') {
-      this._targetElement = obj; 
+      this._targetElement = obj;
     } else {
       this._targetElement = [obj];
     }
@@ -37,7 +37,7 @@
     if (typeof window._progressjsId === 'undefined')
       window._progressjsId = 1;
 
-    if (typeof window._progressjsIntervals === 'undefined') 
+    if (typeof window._progressjsIntervals === 'undefined')
       window._progressjsIntervals = {};
 
     this._options = {
@@ -54,7 +54,7 @@
    * Start progress for specific element(s)
    *
    * @api private
-   * @method _createContainer 
+   * @method _createContainer
    */
   function _startProgress() {
 
@@ -79,7 +79,7 @@
    * @param {Object} targetElement
    */
   function _setProgress(targetElement) {
-    
+
     //if the target element already as `data-progressjs`, ignore the init
     if (targetElement.hasAttribute("data-progressjs"))
       return;
@@ -88,7 +88,7 @@
     var targetElementOffset = _getOffset.call(this, targetElement);
 
     targetElement.setAttribute("data-progressjs", window._progressjsId);
-    
+
     var progressElementContainer = document.createElement('div');
     progressElementContainer.className = 'progressjs-progress progressjs-theme-' + this._options.theme;
 
@@ -110,7 +110,7 @@
     progressPercentElement.innerHTML = "1%";
 
     progressElement.appendChild(progressPercentElement);
-    
+
     if (this._options.overlayMode && targetElement.tagName.toLowerCase() === 'body') {
       //if we have `body` for target element and also overlay mode is enable, we should use a different
       //position for progress bar container element
@@ -169,7 +169,7 @@
    */
   function _setPercentFor(targetElement, percent) {
     var self = this;
-    
+
     //prevent overflow!
     if (percent >= 100)
       percent = 100;
@@ -196,7 +196,7 @@
           if (existingPercent > currentPercent) {
             increasement = false;
           }
-          
+
           var intervalIn = 10;
           function changePercentTimer(percentElement, existingPercent, currentPercent) {
             //calculate the distance between two percents
@@ -215,17 +215,17 @@
               setTimeout(function() { changePercentTimer(percentElement, existingPercent, currentPercent); }, intervalIn);
             }
           }
-          
+
           changePercentTimer(percentElement, existingPercent, currentPercent);
-          
+
         })(percentElement, existingPercent, parseInt(percent));
-        
+
       }, 50);
     }
   }
 
   /**
-   * Get the progress bar element 
+   * Get the progress bar element
    *
    * @api private
    * @method _getPercentElement
@@ -233,7 +233,7 @@
    */
   function _getPercentElement(targetElement) {
     var progressjsId = parseInt(targetElement.getAttribute('data-progressjs'));
-    return document.querySelector('.progressjs-container > .progressjs-progress[data-progressjs="' + progressjsId + '"] > .progressjs-inner');  
+    return document.querySelector('.progressjs-container > .progressjs-progress[data-progressjs="' + progressjsId + '"] > .progressjs-inner');
   }
 
   /**
@@ -250,12 +250,35 @@
     var target = this._targetElement[0];
     if(!target) return;
     var progressjsId = parseInt(target.getAttribute('data-progressjs'));
-    
+
     if (typeof window._progressjsIntervals[progressjsId] != 'undefined') {
       clearInterval(window._progressjsIntervals[progressjsId]);
     }
     window._progressjsIntervals[progressjsId] = setInterval(function() {
       _increasePercent.call(self, size);
+    }, millisecond);
+  }
+
+  /**
+   * Auto decrease the progress bar every X milliseconds
+   *
+   * @api private
+   * @method _autoDecrease
+   * @param {Number} size
+   * @param {Number} millisecond
+   */
+  function _autoDecrease(size, millisecond) {
+    var self = this;
+
+    var target = this._targetElement[0];
+    if(!target) return;
+    var progressjsId = parseInt(target.getAttribute('data-progressjs'));
+
+    if (typeof window._progressjsIntervals[progressjsId] != 'undefined') {
+      clearInterval(window._progressjsIntervals[progressjsId]);
+    }
+    window._progressjsIntervals[progressjsId] = setInterval(function() {
+      _decreasePercent.call(self, size);
     }, millisecond);
   }
 
@@ -280,7 +303,27 @@
   }
 
   /**
-   * Close and remove progress bar 
+   * Decrease the size of progress bar
+   *
+   * @api private
+   * @method _decreasePercent
+   * @param {Number} size
+   */
+  function _decreasePercent(size) {
+    for (var i = 0, elmsLength = this._targetElement.length; i < elmsLength; i++) {
+      var currentElement = this._targetElement[i];
+      if (currentElement.hasAttribute('data-progressjs')) {
+        var percentElement  = _getPercentElement(currentElement);
+        var existingPercent = parseInt(percentElement.style.width.replace('%', ''));
+        if (existingPercent) {
+          _setPercentFor.call(this, currentElement, existingPercent - (size || 1));
+        }
+      }
+    }
+  }
+
+  /**
+   * Close and remove progress bar
    *
    * @api private
    * @method _end
@@ -300,7 +343,7 @@
     var target = this._targetElement[0];
     if(!target) return;
     var progressjsId = parseInt(target.getAttribute('data-progressjs'));
-    
+
     for (var i = 0, elmsLength = this._targetElement.length; i < elmsLength; i++) {
       var currentElement = this._targetElement[i];
       var percentElement = _getPercentElement(currentElement);
@@ -309,7 +352,7 @@
         return;
 
       var existingPercent = parseInt(percentElement.style.width.replace('%', ''));
-      
+
       var timeoutSec = 1;
       if (existingPercent < 100) {
         _setPercentFor.call(this, currentElement, 100);
@@ -464,7 +507,7 @@
     } else if (typeof (targetElm) === 'string') {
       //select the target element with query selector
       var targetElement = document.querySelectorAll(targetElm);
-       
+
       if (targetElement) {
         return new ProgressJs(targetElement);
       } else {
@@ -531,8 +574,16 @@
       _increasePercent.call(this, size);
       return this;
     },
+    decrease: function(size) {
+      _decreasePercent.call(this, size);
+      return this;
+    },
     autoIncrease: function(size, millisecond) {
       _autoIncrease.call(this, size, millisecond);
+      return this;
+    },
+    autoDecrease: function(size, millisecond) {
+      _autoDecrease.call(this, size, millisecond);
       return this;
     },
     end: function() {
