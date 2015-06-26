@@ -285,7 +285,7 @@
    * @api private
    * @method _end
    */
-  function _end() {
+  function _end(callback) {
 
     //call onBeforeEnd callback
     if (typeof this._onBeforeEndCallback != 'undefined') {
@@ -341,6 +341,10 @@
         delete window._progressjsIntervals[progressjsId];
       } catch(ex) { }
     }
+
+    if (typeof callback === 'function') {
+      callback();
+    }
   }
 
   /**
@@ -349,7 +353,7 @@
    * @api private
    * @method _kill
    */
-  function _kill() {
+  function _kill(callback) {
     var target = this._targetElement[0];
     if(!target) return;
     var progressjsId = parseInt(target.getAttribute('data-progressjs'));
@@ -383,6 +387,10 @@
         window._progressjsIntervals[progressjsId] = null;
         delete window._progressjsIntervals[progressjsId];
       } catch(ex) { }
+    }
+
+    if (typeof callback === 'function') {
+      callback();
     }
   }
 
@@ -535,12 +543,12 @@
       _autoIncrease.call(this, size, millisecond);
       return this;
     },
-    end: function() {
-      _end.call(this);
+    end: function(callback) {
+      _end.call(this, callback);
       return this;
     },
-    kill: function() {
-      _kill.call(this);
+    kill: function(callback) {
+      _kill.call(this, callback);
       return this;
     },
     onbeforeend: function(providedCallback) {
